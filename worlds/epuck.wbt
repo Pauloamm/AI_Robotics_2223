@@ -1,0 +1,157 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
+WorldInfo {
+  info [
+    "Simulation showing the KUKA youBot model"
+  ]
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material2 "box"
+      coulombFriction [
+        10
+      ]
+    }
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        0, 2, 0
+      ]
+      frictionRotation -0.785398 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        0, 2, 0
+      ]
+      frictionRotation 0.785398 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.3132445484511893 -0.7148660446572639 0.6251754882124612 5.521154238137873
+  position -10.045763323433636 4.502544722956115 2.4383558329369253
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 20 10
+  tileSize 1 1
+  appearance Parquetry {
+    type "light strip"
+    textureTransform TextureTransform {
+    }
+  }
+}
+Solid {
+  translation 0 -5.14 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0
+        }
+      }
+      geometry Box {
+        size 20 0.5 1
+      }
+    }
+  ]
+  name "WALL(1)"
+}
+Solid {
+  translation -10.02 -0.13 4.70027e-05
+  rotation 2.355999999987029e-06 -2.3368199999871343e-06 0.9999999999944944 -1.5707953071795862
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0
+        }
+      }
+      geometry Box {
+        size 10 0.5 1
+      }
+    }
+  ]
+  name "WALL(2)"
+}
+Solid {
+  translation 9.74 -0.129984 -4.57272e-05
+  rotation 2.355999999987029e-06 -2.3368199999871343e-06 0.9999999999944944 -1.5707953071795862
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0
+        }
+      }
+      geometry Box {
+        size 10 0.5 1
+      }
+    }
+  ]
+  name "WALL(3)"
+}
+Solid {
+  translation 0 4.81 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0
+        }
+      }
+      geometry Box {
+        size 20 0.5 1
+      }
+    }
+  ]
+  name "WALL(4)"
+}
+E-puck {
+  hidden position_0_0 81.6920955215497
+  hidden position_0_1 81.69209550786043
+  hidden linearVelocity_0 -0.008665073679815014 -0.039282820295011886 1.4835701336715615e-07
+  hidden angularVelocity_0 0.014787631446601945 -0.0032618845848502976 -1.2613708625064516e-09
+  hidden rotation_1 0 1 0 3.818857322738108
+  hidden linearVelocity_1 -0.008681382867349678 -0.0393567574039577 -3.7203999881322163e-10
+  hidden angularVelocity_1 1.9678378375864591 -0.43406914126069607 2.929445853681817e-08
+  hidden rotation_2 0 1 0 5.913031948448575
+  hidden linearVelocity_2 -0.008681382867668981 -0.03935675738456993 -5.121858492813683e-10
+  hidden angularVelocity_2 1.9678378396773302 -0.43406913177826734 -3.095819502399232e-08
+  translation -7.067880427841659 2.7426358126546435 -3.194099897586844e-05
+  rotation 0.0010123555716003388 0.0008133844351651934 -0.9999991567706231 1.7879022900699237
+  controller "e_puck_simple"
+  camera_width 160
+  camera_height 120
+}
+Solid {
+  translation 6.43 -11.65 0
+  scale 0.15 0.15 0.15
+  children [
+    Shape {
+      geometry Mesh {
+        url [
+          "Lines.obj"
+        ]
+      }
+    }
+  ]
+}
