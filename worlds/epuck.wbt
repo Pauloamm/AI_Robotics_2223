@@ -44,8 +44,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.1577360551736424 0.06822804695746487 -0.9851214496226481 1.935922376966669
-  position 8.848240611626348 11.0604142885606 0.3021838520829373
+  orientation 0.09062537194024119 0.10224464488912864 -0.9906225691716241 1.944450259867976
+  position 17.43969572416626 27.761405420775485 9.460421878641494
 }
 TexturedBackground {
 }
@@ -68,7 +68,86 @@ E-puck {
 }
 DEF Map_Points Group {
   children [
-    Transform {
+    DEF C27 Transform {
+      translation -7.07 0 -2.56
+    }
+    DEF C26 Transform {
+      translation -6.03 0 -2.56
+    }
+    DEF C25 Transform {
+      translation -4.21 0 -2.56
+    }
+    DEF C24 Transform {
+      translation -0.3 0 -2.56
+    }
+    DEF C23 Transform {
+      translation 3.72 0 -2.56
+    }
+    DEF C22 Transform {
+      translation 5.52 0 -2.56
+    }
+    DEF C21 Transform {
+      translation 7.81 0 -2.56
+    }
+    DEF C20 Transform {
+      translation -6 0 -0.77
+    }
+    DEF C19 Transform {
+      translation -4.2 0 -0.77
+    }
+    DEF C18 Transform {
+      translation -0.31 0 -0.79
+    }
+    DEF C17 Transform {
+      translation 3.72 0 -0.91
+    }
+    DEF C16 Transform {
+      translation 5.52 0 -0.91
+    }
+    DEF C15 Transform {
+      translation 7.81 0 -0.9
+    }
+    DEF C14 Transform {
+      translation -7.17 0 0.89
+    }
+    DEF C13 Transform {
+      translation -6 0 0.89
+    }
+    DEF C12 Transform {
+      translation -4.2 0 0.89
+    }
+    DEF C11 Transform {
+      translation 0.91 0 0.89
+    }
+    DEF C10 Transform {
+      translation 1.92 0 0.89
+    }
+    DEF C9 Transform {
+      translation 3.72 0 0.89
+    }
+    DEF C8 Transform {
+      translation 5.52 0 0.89
+    }
+    DEF C7 Transform {
+      translation 7.81 0 0.89
+    }
+    DEF C6 Transform {
+      translation -4.19 0 2.5
+    }
+    DEF C5 Transform {
+      translation 0.92 0 2.68
+    }
+    DEF C4 Transform {
+      translation 1.93 0 2.68
+    }
+    DEF C3 Transform {
+      translation 3.74 0 2.68
+    }
+    DEF C2 Transform {
+      translation 5.52 0 2.68
+    }
+    DEF C1 Transform {
+      translation 7.81 0 3.37
     }
   ]
 }
