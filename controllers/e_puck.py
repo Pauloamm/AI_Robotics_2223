@@ -1,6 +1,7 @@
 from controller import Robot, DistanceSensor, Motor
 
 
+
 def run_robot(robot):
     # time in [ms] of a simulation step
     TIME_STEP = 64

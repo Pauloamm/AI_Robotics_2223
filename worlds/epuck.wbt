@@ -1,16 +1,17 @@
 #VRML_SIM R2023a utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Parquetry.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Parquetry.proto"
 
 WorldInfo {
   info [
     "Simulation showing the KUKA youBot model"
   ]
   basicTimeStep 16
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "box"
@@ -43,116 +44,128 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.3132445484511893 -0.7148660446572639 0.6251754882124612 5.521154238137873
-  position -17.458501670671968 8.153603075473098 7.847487544266926
+  orientation -0.1577360551736424 0.06822804695746487 -0.9851214496226481 1.935922376966669
+  position 8.848240611626348 11.0604142885606 0.3021838520829373
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-Floor {
-  size 20 10
-  tileSize 1 1
-  appearance Parquetry {
-    type "light strip"
-    textureTransform TextureTransform {
-    }
-  }
-}
-Solid {
-  translation 0 -5.14 0
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0 0 0
-        }
-      }
-      geometry Box {
-        size 20 0.5 1
-      }
-    }
-  ]
-  name "WALL(1)"
-}
-Solid {
-  translation -10.02 -0.13 4.70027e-05
-  rotation 2.355999999987029e-06 -2.3368199999871343e-06 0.9999999999944944 -1.5707953071795862
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0 0 0
-        }
-      }
-      geometry Box {
-        size 10 0.5 1
-      }
-    }
-  ]
-  name "WALL(2)"
-}
-Solid {
-  translation 9.74 -0.129984 -4.57272e-05
-  rotation 2.355999999987029e-06 -2.3368199999871343e-06 0.9999999999944944 -1.5707953071795862
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0 0 0
-        }
-      }
-      geometry Box {
-        size 10 0.5 1
-      }
-    }
-  ]
-  name "WALL(3)"
-}
-Solid {
-  translation 0 4.81 0
-  children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0 0 0
-        }
-      }
-      geometry Box {
-        size 20 0.5 1
-      }
-    }
-  ]
-  name "WALL(4)"
-}
 E-puck {
-  hidden position_0_0 83.20057551983692
-  hidden position_0_1 83.20057550526886
-  hidden linearVelocity_0 -0.008636607857150981 -0.03915369209287091 8.181143453018225e-08
-  hidden angularVelocity_0 0.006179304281970098 -0.0013630421719590788 -4.499321493505352e-10
-  hidden rotation_1 0 1 0 5.327337321025324
-  hidden linearVelocity_1 -0.008643422579040183 -0.03918458759093469 -1.6036900318798007e-08
-  hidden angularVelocity_1 1.9592293280796438 -0.43217112556079623 3.2512844462775476e-08
-  hidden rotation_2 0 -1 0 5.144858668502168
-  hidden linearVelocity_2 -0.008643422659320108 -0.03918458741230896 -1.5909581008178835e-08
-  hidden angularVelocity_2 1.9592293301641943 -0.4321711160814845 -2.7580308075841694e-08
-  translation -7.074379034539056 2.713174515410815 -3.1906003700900645e-05
-  rotation 0.0013684304371628826 0.0010994739216518233 -0.9999984592764302 1.7879033946385015
-  controller "e_puck_simple"
+  hidden position_0_0 91.20505526911616
+  hidden position_0_1 91.20505525397563
+  hidden rotation_1 0 1 0 0.7654464559453918
+  hidden rotation_2 0 1 0 2.8596210802046027
+  translation 7.8 -0.000224924 3.26
+  rotation -0.5771968951617173 0.5771968951617173 0.577656895078166 2.09394
+  controller "<extern>"
   camera_width 160
   camera_height 120
+  turretSlot [
+    GPS {
+    }
+  ]
 }
-Solid {
-  translation 6.43 -11.65 0
-  scale 0.15 0.15 0.15
+DEF Map_Points Group {
   children [
-    Shape {
-      geometry Mesh {
-        url [
-          "Lines.obj"
-        ]
+    Transform {
+    }
+  ]
+}
+DEF MAP Group {
+  children [
+    Solid {
+      translation -9.9 0 0
+      rotation 0 1 0 1.57
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0 0 0
+            }
+          }
+          geometry Box {
+            size 20 0.5 1
+          }
+        }
+      ]
+      name "WALL(2)"
+    }
+    Solid {
+      translation 0 0 4.9
+      rotation 0 1 0 0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0 0 0
+            }
+          }
+          geometry Box {
+            size 20 0.5 1
+          }
+        }
+      ]
+      name "WALL(5)"
+    }
+    Solid {
+      translation -5.71 -0.01 -11.13
+      rotation 3.3891510791584073e-09 0.7073882252434113 0.7068252250641434 3.14159
+      scale 0.15 0.15 0.15
+      children [
+        Shape {
+          geometry Mesh {
+            url [
+              "Lines.obj"
+            ]
+          }
+        }
+      ]
+      name "LINES"
+    }
+    Solid {
+      translation 0 0 -4.9
+      rotation 0 1 0 0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0 0 0
+            }
+          }
+          geometry Box {
+            size 20 0.5 1
+          }
+        }
+      ]
+      name "WALL(4)"
+    }
+    Solid {
+      translation 9.9 0 0
+      rotation 0 1 0 1.57
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0 0 0
+            }
+          }
+          geometry Box {
+            size 20 0.5 1
+          }
+        }
+      ]
+      name "WALL(1)"
+    }
+    Floor {
+      rotation 1 0 0 -1.57
+      size 20 10
+      tileSize 1 1
+      appearance Parquetry {
+        type "light strip"
+        textureTransform TextureTransform {
+        }
       }
     }
   ]
-  name "LINES"
 }
