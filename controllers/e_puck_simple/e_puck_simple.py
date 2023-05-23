@@ -1,13 +1,14 @@
 import cv2
 import numpy as np
 from controller import Camera
-from controller import Robot
+from controller import Supervisor
+from CellsGraph import CellsGraph
+from Cell import Cell
 
 
 def run_robot(robot):
 
-    #timestep = int(robot.getBasicTimeStep())
-    timestep = 32
+    timestep = int(robot.getBasicTimeStep())
     max_speed = 6.28 # documentation vel
 
     # Initialize motors
@@ -32,7 +33,7 @@ def run_robot(robot):
 
         #Read Sensors
         gpsValues = gps.getValues()
-        gpsValuesText = " {0:0.5f} , {0:0.5f}, {0:0.5f}".format(gpsValues[0],gpsValues[1],gpsValues[2])
+        gpsValuesText = " {0:0.5f} , {1:0.5f}, {2:0.5f}".format(gpsValues[0],gpsValues[1],gpsValues[2])
         print(gpsValuesText)
 
 
@@ -66,7 +67,12 @@ def run_robot(robot):
    
 if __name__=='__main__':
     # Initialize Robot
-    robot = Robot()
+    robot = Supervisor()
+
+    worldCellsGroup = robot.getFromDef('Map_Cells')
+    cellsGraph = CellsGraph(supervisor=robot)
+
+
     run_robot(robot)
         
   

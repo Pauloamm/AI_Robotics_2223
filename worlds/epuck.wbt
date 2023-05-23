@@ -59,6 +59,7 @@ E-puck {
   translation 7.8 -0.000224924 3.26
   rotation -0.5771968951617173 0.5771968951617173 0.577656895078166 2.09394
   controller "<extern>"
+  supervisor TRUE
   camera_width 160
   camera_height 120
   turretSlot [
@@ -66,7 +67,7 @@ E-puck {
     }
   ]
 }
-DEF Map_Points Group {
+DEF Map_Cells Group {
   children [
     DEF C27 Transform {
       translation -7.07 0 -2.56
