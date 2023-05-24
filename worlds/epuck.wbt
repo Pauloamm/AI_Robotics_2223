@@ -2,7 +2,7 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "../protos/E-puck.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Parquetry.proto"
 
@@ -44,24 +44,26 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.09062537194024119 0.10224464488912864 -0.9906225691716241 1.944450259867976
-  position 17.43969572416626 27.761405420775485 9.460421878641494
+  orientation -0.6778825794987802 0.5022472652092959 0.5368639427283819 2.354455954644496
+  position 5.8394577609205385 2.5365822968139176 13.135724845508225
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 E-puck {
-  hidden position_0_0 91.20505526911616
-  hidden position_0_1 91.20505525397563
-  hidden rotation_1 0 1 0 0.7654464559453918
-  hidden rotation_2 0 1 0 2.8596210802046027
-  translation 7.8 -0.000224924 3.26
-  rotation -0.5771968951617173 0.5771968951617173 0.577656895078166 2.09394
+  hidden position_0_0 144.82223385465903
+  hidden position_0_1 93.90787428718457
+  hidden rotation_1 0 1 0 4.117142584051574
+  hidden rotation_2 0 1 0 5.562440113413543
+  translation 7.789974771823566 -0.0022593592496512674 2.797150495299004
+  rotation -0.576685725747313 0.5766976716420082 0.5786651615934568 2.0924417487369213
   controller "<extern>"
   supervisor TRUE
-  camera_width 160
-  camera_height 120
+  camera_fieldOfView 2
+  camera_width 640
+  camera_height 240
+  camera_rotation 0 1 0 0.785
   turretSlot [
     GPS {
     }
@@ -189,14 +191,14 @@ DEF MAP Group {
       name "WALL(5)"
     }
     Solid {
-      translation -5.71 -0.01 -11.13
+      translation -5.71 -0.001 -11.13
       rotation 3.3891510791584073e-09 0.7073882252434113 0.7068252250641434 3.14159
       scale 0.15 0.15 0.15
       children [
         Shape {
           geometry Mesh {
             url [
-              "Lines.obj"
+              "tinker.obj"
             ]
           }
         }
@@ -242,7 +244,8 @@ DEF MAP Group {
       size 20 10
       tileSize 1 1
       appearance Parquetry {
-        type "light strip"
+        type "dark strip"
+        colorOverride 0 0 0
         textureTransform TextureTransform {
         }
       }

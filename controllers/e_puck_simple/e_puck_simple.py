@@ -2,13 +2,21 @@ import cv2
 import numpy as np
 from controller import Camera
 from controller import Supervisor
+
 from CellsGraph import CellsGraph
-from Cell import Cell
+from PathFindingAStar import PathFindingAStar
+
 
 
 def run_robot(robot):
 
+    # Camera Image Variables
+    image_width = 640
+    image_height = 240
+
+
     timestep = int(robot.getBasicTimeStep())
+    base_speed = 0.25
     max_speed = 6.28 # documentation vel
 
     # Initialize motors
@@ -23,7 +31,7 @@ def run_robot(robot):
 
     # Initialize camera
     camera = robot.getDevice('camera')
-    #camera.enable(timestep)
+    camera.enable(timestep)
 
     #Initialize GPS
     gps = robot.getDevice('gps')
@@ -41,46 +49,77 @@ def run_robot(robot):
 
         #Actions
 
-        left_motor.setVelocity(0.25 * max_speed)
-        right_motor.setVelocity(0.25 * max_speed)
+        frame = np.frombuffer(camera.getImage(), dtype=np.uint8).reshape((camera.getHeight(), camera.getWidth(), 4))
+        # save rgb
+        # cv2.imwrite('processed_frame.jpg', frame)
 
+        # Preprocessing
+        gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        # cv2.imwrite('processed_gray.jpg', gray)
 
+        _, binary = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
+        # cv2.imwrite('processed_binary.jpg', binary)
 
-        ## R = 207 , G = 207 , B = 207 LINE RGB VALUES
-        ## H = 0 , S = 0 , V = 80 LINE HSV VALUES GRAY
-        #img = np.frombuffer(camera.getImage(), dtype=np.uint8).reshape((camera.getHeight(), camera.getWidth(), 4))
-        #cv2.imwrite('processed_frame.jpg', img)
-#
-        ## Display the image
-        #gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-        #cv2.imwrite('processed_frame_gray.jpg', gray)
-        #_, thresholded = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
-        #cv2.imwrite('processed_frame_threshold.jpg', thresholded)
-#
-        ## Perform edge detection
-        #edges = cv2.Canny(thresholded, 50, 150)
-        ## Find contours in the edge image
-        #contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # find the contours
-        #cv2.drawContours(edges, contours, -1, (0, 255, 0), 3)
-        #cv2.imwrite('processed_frame_detection.jpg', edges)
+        # Canny edge detection
+        edges = cv2.Canny(binary, 50, 150)
+        # Hough line transform
+        lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=50, minLineLength=50, maxLineGap=10)
+
+        if lines is not None:
+            center_x_total = 0
+            center_y_total = 0
+            count = 0
+
+            # Iterate over all detected lines
+            for line in lines:
+                x1, y1, x2, y2 = line[0]
+
+                # Calculate the center of the line segment
+                center_x = (x1 + x2) // 2
+                center_y = (y1 + y2) // 2
+
+                center_x_total += center_x
+                center_y_total += center_y
+                count += 1
+
+            if count > 0:
+                # Calculate the average center point
+                average_center_x = center_x_total // count
+                average_center_y = center_y_total // count
+
+                # Draw a circle at the average center point (for visualization)
+            cv2.circle(frame, (average_center_x, average_center_y), 5, (0, 255, 0), -1)
+
+        cv2.imwrite('CENTER.jpg', frame)
+
+        # CONTROL MOTORS
+        # Find Error
+        center_x = average_center_x  # Assuming you have obtained the average center x-coordinate
+        desired_position = image_width / 2  # Assuming the desired position is the center of the image width
+        print(f"Center X: {center_x}")
+        error = center_x - desired_position
+        # Set the proportional control gain
+        Ke = 0.5
+        Kp = 2
+
+        # Calculate the individual wheel speeds
+        left_wheel_speed = Kp + ((Ke * error) / desired_position)
+        right_wheel_speed = Kp - ((Ke * error) / desired_position)
+        left_motor.setVelocity(left_wheel_speed)
+        right_motor.setVelocity(right_wheel_speed)
+        print(f"left wheel: {left_wheel_speed}")
+        print(f"right wheel: {right_wheel_speed}")
 
    
 if __name__=='__main__':
     # Initialize Robot
     robot = Supervisor()
 
-    worldCellsGroup = robot.getFromDef('Map_Cells')
     cellsGraph = CellsGraph(supervisor=robot)
+    pathFinding = PathFindingAStar(cellsGraph)
 
 
     run_robot(robot)
-        
-  
-    
-    
-   
-  
 
-    
-    
-    
+
+
