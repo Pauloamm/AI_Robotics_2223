@@ -44,23 +44,25 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.1245130082930603 -0.122942332248677 -0.9845718326801088 1.5861408387522649
-  position -0.9869950485393234 31.714439645293325 -7.279039919264575
+  orientation -0.025785913710655622 -0.024197118534993435 0.9993745974902055 4.711805966089699
+  position 0.903640229118722 27.59389571975717 0.8719137175494309
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF e-puck E-puck {
-  translation 7.789974771823567 -0.002259359283710627 2.797150495568119
-  rotation -0.5766857976167675 0.5766977430633238 0.5786650187913395 2.0924419633688505
+  translation 0.395254 0.00200864 -2.56561
+  rotation -0.9999995432272505 0.0007854280727424267 -0.0005446540488521077 1.5700952863786837
   controller "<extern>"
   supervisor TRUE
   camera_fieldOfView 2
   camera_width 640
   camera_height 240
-  camera_rotation 0 1 0 0.785
+  camera_rotation 0 1 0 1.57
   turretSlot [
+    Compass {
+    }
     InertialUnit {
     }
     GPS {
@@ -70,16 +72,16 @@ DEF e-puck E-puck {
 DEF Map_Cells Group {
   children [
     DEF C27 Transform {
-      translation -7.07 0 -2.56
+      translation -7.36 0 -2.56
     }
     DEF C26 Transform {
-      translation -6.03 0 -2.56
+      translation -4.52 0 -2.56
     }
     DEF C25 Transform {
-      translation -4.21 0 -2.56
+      translation -0.31 0 -2.56
     }
     DEF C24 Transform {
-      translation -0.3 0 -2.56
+      translation 1.78 0 -2.56
     }
     DEF C23 Transform {
       translation 3.72 0 -2.56
@@ -91,10 +93,10 @@ DEF Map_Cells Group {
       translation 7.81 0 -2.56
     }
     DEF C20 Transform {
-      translation -6 0 -0.77
+      translation -4.53 0 -0.77
     }
     DEF C19 Transform {
-      translation -4.2 0 -0.77
+      translation -2.71 0 -0.77
     }
     DEF C18 Transform {
       translation -0.31 0 -0.79
@@ -112,10 +114,10 @@ DEF Map_Cells Group {
       translation -7.17 0 0.89
     }
     DEF C13 Transform {
-      translation -6 0 0.89
+      translation -4.5 0 0.89
     }
     DEF C12 Transform {
-      translation -4.2 0 0.89
+      translation -2.7 0 0.67
     }
     DEF C11 Transform {
       translation 0.91 0 0.89
@@ -133,7 +135,7 @@ DEF Map_Cells Group {
       translation 7.81 0 0.89
     }
     DEF C6 Transform {
-      translation -4.19 0 2.5
+      translation -2.81 0 2.5
     }
     DEF C5 Transform {
       translation 0.92 0 2.68

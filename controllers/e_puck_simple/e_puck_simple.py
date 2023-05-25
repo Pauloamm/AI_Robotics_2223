@@ -19,13 +19,15 @@ currentCell = None
 
 #Angles and distance errors
 angleSafeRange = 0.05
-distSafeArea = 0.01
+distSafeArea = 0.1
 
-
+#Wheel speed
+left_wheel_speed = 0
+right_wheel_speed = 0
 
 
 max_speed = 6.28  # documentation vel
-currentSpeed = 0.25 * max_speed
+currentSpeed = 10
 
 def run_robot():
     # Robot State
@@ -59,6 +61,9 @@ def run_robot():
     inertialUnit = robot.getDevice('inertial unit')
     inertialUnit.enable(timestep)
 
+    compass = robot.getDevice('compass')
+    compass.enable(timestep)
+
     while robot.step(timestep) != -1:
 
         #Read Sensors
@@ -70,15 +75,26 @@ def run_robot():
         #print('roll: ' + str(roll) + ' pitch: ' + str(pitch) + ' yaw: ' + str(yaw))
 
         roll,pitch,yaw = inertialUnit.getRollPitchYaw()
-        forward_vector = [math.cos(yaw), 0, math.sin(yaw)]
+        #print('roll: ' + str(roll) + ' pitch: ' + str(pitch) + ' yaw: ' + str(yaw))
+
+        forward_vector = [math.cos(yaw), 0, -math.sin(yaw)]
+        print('FORWARD VECTOR: {0}'.format(forward_vector))
+        #forward_vector = compass.getValues()
+        # Calculate the direction the robot is facing
+
+
         #print('roll: ' + str(roll) + ' pitch: ' + str(pitch) + ' yaw: ' + str(yaw))
         #print(forward_vector)
 
         #Process data
 
         if robotCurrentState == 'ROTATING':
+            print('ROTATING TOWARDS: ' + currentCell.name)
             robotCurrentState = RotationBehaviour(forward_vector, left_motor,right_motor)
         else:
+            right_motor.setVelocity(currentSpeed)
+            left_motor.setVelocity(currentSpeed)
+
             robotCurrentState = MovementBehaviour(gpsValues, camera, left_motor,right_motor)
 
         print(robotCurrentState)
@@ -88,17 +104,28 @@ def run_robot():
 
 def MovementBehaviour(robotPosition,camera,right_motor,left_motor):
 
+    global left_wheel_speed,right_wheel_speed
+
     nextCell = totalPath[0]
     euclideanVector = [nextCell.position[0] - robotPosition[0],
                           nextCell.position[1] - robotPosition[1],
                           nextCell.position[2] - robotPosition[2]]
 
     distance = np.linalg.norm(np.array(euclideanVector))
+    print('DISTANCE TO NEXT POINT:' + str(distance))
+
+    slowDistance = 0.1
+    stopDistance = 0.05
 
     changeState = False
-    if distance < distSafeArea:
-        currentCell =  totalPath.pop(0)
+
+    if distance < stopDistance:
+        global currentCell
+        currentCell = totalPath.pop(0)
         changeState = True
+    elif distance< slowDistance:
+        right_motor.setVelocity(right_wheel_speed* distance)
+        left_motor.setVelocity(left_wheel_speed* distance)
     else:
         FollowLineMovement(camera, left_motor,right_motor)
 
@@ -158,6 +185,8 @@ def FollowLineMovement(camera,left_motor,right_motor):
 
             # Draw a circle at the average center point (for visualization)
         cv2.circle(frame, (average_center_x, average_center_y), 5, (0, 255, 0), -1)
+    else:
+        print('LINES NOT FOUND')
 
     cv2.imwrite('CENTER.jpg', frame)
 
@@ -172,10 +201,17 @@ def FollowLineMovement(camera,left_motor,right_motor):
     Kp = 2
 
     # Calculate the individual wheel speeds
-    left_wheel_speed = Kp + ((Ke * error) / desired_position)
-    right_wheel_speed = Kp - ((Ke * error) / desired_position)
+
+    global left_wheel_speed, right_wheel_speed
+    left_wheel_speed = Kp - ((Ke * error) / desired_position)
+    right_wheel_speed = Kp + ((Ke * error) / desired_position)
     left_motor.setVelocity(left_wheel_speed)
     right_motor.setVelocity(right_wheel_speed)
+
+    if(left_wheel_speed > right_wheel_speed):
+        print("AJUSTAR PARA A DIREITA")
+    else:
+        print('AJUSTAR PARA A ESQUERDA')
     ##print(f"left wheel: {left_wheel_speed}")
     ##print(f"right wheel: {right_wheel_speed}")
 
@@ -194,8 +230,10 @@ def RotationBehaviour(forwardVector,left_motor,right_motor):
 
     if angle >= angleSafeRange:
         TurnRight(left_motor,right_motor)
+        print('ROTATING RIGHT')
     elif angle <= -angleSafeRange:
         TurnLeft(left_motor,right_motor)
+        print('ROTATING LEFT')
     else:
          changeState = True
 
@@ -226,16 +264,16 @@ def angle_between(v1, v2):
     v1_u = unit_vector(v1)
     v2_u = unit_vector(v2)
     #return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
-    return np.arctan2(np.cross(v1_u, v2_u), np.dot(v1_u, v2_u))[1]
+    return np.arctan2(np.cross(v2_u, v1_u), np.dot(v1_u, v2_u))[1]
 ##---------------------------------------------------------------------------------------
 
 def TurnRight(left_motor,right_motor):
-    right_motor.setVelocity(-currentSpeed/2)
-    left_motor.setVelocity(currentSpeed/2)
+    right_motor.setVelocity(0.0)
+    left_motor.setVelocity(0.2 * currentSpeed/2)
 
 def TurnLeft( left_motor,right_motor):
-    right_motor.setVelocity(currentSpeed/2)
-    left_motor.setVelocity(-currentSpeed/2)
+    right_motor.setVelocity(0.2 *currentSpeed/2)
+    left_motor.setVelocity(0.0)
 
 def DefineInitialCells():
 
@@ -281,10 +319,22 @@ if __name__=='__main__':
 
     currentCell = randomStartCell
 
+
+
+
+    TESTESTART = cellsGraph.worldCellsDict['C3']
+    TESTEP  = cellsGraph.worldCellsDict['C9']
+    TESTEND =  cellsGraph.worldCellsDict['C8']
+    TESTEPATH1 = pathFinding.FindPath(TESTESTART,TESTEP)
+    TESTPATH2 = pathFinding.FindPath(TESTEP,TESTEND)
+    totalPath = TESTEPATH1 + TESTPATH2
+    currentCell = TESTESTART
+
+
     #Start at random start cell position
     robotNode = robot.getFromDef('e-puck')
     translationField = robotNode.getField('translation')
-    translationField.setSFVec3f(randomStartCell.position)
+    translationField.setSFVec3f(TESTESTART.position)
 
 
     run_robot()

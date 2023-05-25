@@ -57,9 +57,9 @@ Robot {
           name "left wheel motor"
           consumptionFactor -0.001 # small trick to encourage the movement (calibrated for the rat's life contest)
           %< if (v2) { >%
-            maxVelocity 7.536 # 1200 step/s
+            maxVelocity 12 # 1200 step/s
           %< } else { >%
-            maxVelocity 6.28 # 1000 step/s
+            maxVelocity 10 # 1000 step/s
           %< } >%
         }
         PositionSensor {
@@ -212,9 +212,9 @@ Robot {
           name "right wheel motor"
           consumptionFactor -0.001 # small trick to encourage the movement (calibrated for the rat's life contest)
           %< if (v2) { >%
-            maxVelocity 7.536 # 1200 step/s
+            maxVelocity 12 # 1200 step/s
           %< } else { >%
-            maxVelocity 6.28 # 1000 step/s
+            maxVelocity 10 # 1000 step/s
           %< } >%
         }
         PositionSensor {
