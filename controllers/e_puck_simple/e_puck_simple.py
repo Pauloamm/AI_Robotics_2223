@@ -17,6 +17,9 @@ totalPath = []
 
 currentCell = None
 
+#Angles and distance errors
+angleSafeRange = 0.05
+distSafeArea = 0.01
 
 
 
@@ -61,7 +64,7 @@ def run_robot():
         #Read Sensors
         gpsValues = gps.getValues()
         gpsValuesText = " {0:0.5f} , {1:0.5f}, {2:0.5f}".format(gpsValues[0],gpsValues[1],gpsValues[2])
-       #print(gpsValuesText)
+        #print('POSITION:' + gpsValuesText)
 
         #roll,pitch,yaw = gyro.getRollPitchYaw()
         #print('roll: ' + str(roll) + ' pitch: ' + str(pitch) + ' yaw: ' + str(yaw))
@@ -74,14 +77,36 @@ def run_robot():
         #Process data
 
         if robotCurrentState == 'ROTATING':
-            #ROTATE
             robotCurrentState = RotationBehaviour(forward_vector, left_motor,right_motor)
         else:
-            FollowLineMovement(camera,left_motor,right_motor)
+            robotCurrentState = MovementBehaviour(gpsValues, camera, left_motor,right_motor)
 
-
+        print(robotCurrentState)
 
         #Actions
+
+
+def MovementBehaviour(robotPosition,camera,right_motor,left_motor):
+
+    nextCell = totalPath[0]
+    euclideanVector = [nextCell.position[0] - robotPosition[0],
+                          nextCell.position[1] - robotPosition[1],
+                          nextCell.position[2] - robotPosition[2]]
+
+    distance = np.linalg.norm(np.array(euclideanVector))
+
+    changeState = False
+    if distance < distSafeArea:
+        currentCell =  totalPath.pop(0)
+        changeState = True
+    else:
+        FollowLineMovement(camera, left_motor,right_motor)
+
+    if changeState == True:
+        return 'ROTATING'
+    else:
+        return 'MOVING'
+
 
 
 
@@ -162,7 +187,7 @@ def RotationBehaviour(forwardVector,left_motor,right_motor):
 
     angle = angle_between(forwardVector,desiredOrientation)
 
-    angleSafeRange = 0.05
+
 
     changeState = False
 
@@ -174,8 +199,8 @@ def RotationBehaviour(forwardVector,left_motor,right_motor):
     else:
          changeState = True
 
-    print('TO: ' + nextCell.name)
-    print('ANGLE: ' + str(angle))
+    #print('TO: ' + nextCell.name)
+    #print('ANGLE: ' + str(angle))
 
     if changeState == True:
         return 'MOVING'
