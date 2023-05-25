@@ -10,30 +10,12 @@ class PathFindingAStar:
 
 
 
-        #TESTE
-
-        STARTTESTNAME = 'C1'
-        ENDTESTNAME= 'C16'
-        STARTTESTPOS = cellsGraph.worldCellsDict[STARTTESTNAME].position
-        ENDTESTPOS = cellsGraph.worldCellsDict[ENDTESTNAME].position
-        TESTPATH = self.FindPath(STARTTESTPOS,ENDTESTPOS)
-        print('PATH FROM ' + STARTTESTNAME + '--> ' + ENDTESTNAME + '\n')
-
-        temp = ''
-        for c in TESTPATH:
-            temp2= ' --> ' + c.name
-            temp+= temp2
-        print(temp)
-        print()
+    def FindPath(self, startingCell, endCell):
 
 
 
-    def FindPath(self, startingPos, endPos):
-
-
-
-        startingCell = self.cellsGraph.GetCellInPosition(startingPos)
-        endCell = self.cellsGraph.GetCellInPosition(endPos)
+        #startingCell = self.cellsGraph.GetCellInPosition(startingPos)
+        #endCell = self.cellsGraph.GetCellInPosition(endPos)
 
         startingCell.gCost = 0
         startingCell.CalculateHCost(endCell.position)
@@ -88,3 +70,13 @@ class PathFindingAStar:
         end = np.array(endCell.position)
 
         return np.linalg.norm(end - origin)
+
+    def DEBUGPrintPath(self,STARTTESTNAME,ENDTESTNAME,TESTPATH ):
+        print('PATH FROM ' + STARTTESTNAME + '--> ' + ENDTESTNAME + '\n')
+
+        temp = ''
+        for c in TESTPATH:
+            temp2 = ' --> ' + c.name
+            temp += temp2
+        print(temp)
+        print()

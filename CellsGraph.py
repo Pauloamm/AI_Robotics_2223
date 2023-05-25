@@ -1,3 +1,4 @@
+import random
 from Cell import Cell
 from controller import Supervisor
 
@@ -36,6 +37,8 @@ class CellsGraph:
 
         }
 
+
+        # Name -> Cell Instance
         self.worldCellsDict = {}
 
         self.createCells(supervisor)
@@ -96,3 +99,7 @@ class CellsGraph:
                 break
 
         return desiredCell
+
+    def GetRandomCell(self):
+        _, randomCell = random.choice(list(self.worldCellsDict.items()))
+        return randomCell
